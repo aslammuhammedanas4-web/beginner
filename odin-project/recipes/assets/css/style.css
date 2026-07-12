@@ -1,0 +1,12 @@
+body{
+    background-color:  rgba(0, 255, 0, 0.3);
+    border: 10px solid bisque;
+}
+#aside{
+  background-color:#00ff0080; 
+  padding: 10px;
+  border-left: 5px solid bisque;
+}
+#example{
+    font-family: 'Times New Roman', serif;
+}
