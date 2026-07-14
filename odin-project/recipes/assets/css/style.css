@@ -22,3 +22,18 @@ body {
    font-family: "segoe ui",Tahoma, Geneva, Verdana, sans-serif;
    text-align:center;
 }
+
+.recipe-button {
+    background-color: rgba(0, 247, 255, 0.34);
+}
+.recipe-title {
+    text-align: center;
+    font-family: "segoe ui",Tahoma, Geneva, Verdana, sans-serif;
+    color: lab(33.37% 73.68 -86.64 / 0.814);
+}
+#container {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #dd1616;
+    background-color: rgba(0, 255, 0, 0.3);
+}
