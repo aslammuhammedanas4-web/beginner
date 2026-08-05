@@ -1,8 +1,19 @@
+@keyframes myanimation{
+ from {background-color: rgb(131, 203, 162);}
+ to {background-color: rgba(255, 127, 29, 0.3);}
+}
+@keyframes boxanimation{
+ 0% {background-color: red; left: 0px; top: 0px;}
+    25% {background-color: yellow; left: 200px; top: 0px;}
+    50% {background-color: blue; left: 200px; top: 100px;}
+    75% {background-color: green; left: 0px; top: 100px;}
+    100% {background-color: red; left: 0px; top: 0px;}
+}
+
 body {
     background-color: rgba(0, 255, 0, 0.3);
     border: 10px solid bisque;
 }
-
 #aside {
     background-color: #00ff0080;
     padding: 10px;
@@ -12,8 +23,13 @@ body {
     margin-left: 20px;
     width: 250px;
     margin-bottom: 0px;
+    cursor: pointer;
+    transition-duration: 0.4s;
 }
-
+aside:hover {
+     box-shadow: 8px 8px 0px 0px #161414fe;
+     transform: translateY(2px);
+}
 #example {
     font-family: 'Times New Roman', serif;
     font-weight: bold;
@@ -26,13 +42,13 @@ body {
 .recipe-button {
     background-color: rgba(0, 247, 255, 0.34);
     cursor: pointer;
-    transition-duration: 0.4s;
+     transition-duration: 0.4s;
     border-radius: 5px;
+    animation-name:myanimation ;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
 }
-.recipe-button:hover {
-    background-color: yellow;
-    box-shadow: 10px 10px 10px rgba(0, 247, 255, 0.7);
-}
+
 .recipe-title {
     text-align: center;
     font-family: "segoe ui",Tahoma, Geneva, Verdana, sans-serif;
@@ -43,4 +59,21 @@ body {
     margin-bottom: 20px;
     color: #dd1616;
     background-color: rgba(0, 255, 0, 0.3);
+}
+.image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.recipe-box {
+    display: block;
+   width: 100px;
+   height: 80px;
+   text-align: center;
+   background-color: rgba(146, 15, 218, 0.734);
+   list-style-type: none;
+   position: relative;
+   animation-name: boxanimation;
+   animation-duration: 4s;
+   animation-iteration-count: 0;
 }
