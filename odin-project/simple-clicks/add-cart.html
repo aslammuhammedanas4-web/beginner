@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>through clicks</title>
+    <style>
+        a:hover {
+            color: rgb(224, 159, 46);
+
+        }
+
+        .first {
+            color: rgb(0, 118, 0);
+            font-weight: bold;
+        }
+
+        p {
+            font-weight: bold;
+        }
+
+        .normal-text {
+            font-weight: normal;
+        }
+
+        .cart {
+            background-color: rgb(255, 216, 20);
+            color: #000;
+            border: none;
+            font-weight: bold;
+            margin: 10px;
+            height: 30px;
+            width: 110px;
+            border-radius: 156px;
+            cursor: pointer;
+        }
+
+        .cart:active {
+            opacity: 0.7;
+            transition: opacity 0.15s;
+        }
+
+        .buy {
+            background-color: rgb(255, 164, 28);
+            color: #000;
+            border: none;
+            font-weight: bold;
+            height: 30px;
+            width: 80px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .buy:active {
+            background-color: rgba(102, 112, 4, 0.826);
+            color: #fff;
+            transition: background-color 0.15s;
+        }
+
+        .for-style {
+            font-family: Arial;
+            color: rgb(239, 7, 7);
+            margin: 8px;
+            display: block;
+            font-size: 20px;
+        }
+
+        .cat-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 40px;
+            object-fit: cover;
+
+        }
+
+        .cat-image-one {
+            width: 200px;
+            height: 200px;
+
+        }
+
+        .cat-image-two {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+
+        }
+
+        .search-bar {
+            width: 200px;
+            height: 30px;
+            border-radius: 10px;
+            padding: 5px;
+            border: none;
+        }
+
+        .search-bar-one {
+            width: 500px;
+            height: 30px;
+            border-radius: 10px;
+            padding: 5px;
+            border: 1px solid rgb(0, 0, 0);
+        }
+
+        .email {
+            width: 400px;
+            height: 30px;
+            border-radius: 10px;
+            padding: 5px;
+            border: 1px solid rgb(0, 0, 0);
+        }
+
+        .agree-button {
+            font-family: Arial;
+            background-color: rgb(4, 106, 161);
+            color: #fff;
+            border: none;
+            width: 200px;
+            text-align: center;
+            border-radius: 23px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 100px;
+        }
+        .middle {
+            background-color:#fff;
+            height: 30px;
+            width: 400px;
+            display: flex;
+            border:#000 solid 1px;
+            border-radius: 15px;
+            margin-bottom: 100px;
+            border:none;
+        }
+        .tweet-image {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .search-bar-two {
+            width: 280px;
+            height: 30px;
+            border-radius: 15px;
+            padding: 5px;
+            vertical-align: middle;
+            border: none;
+        }
+        .tweet-one{
+           background-color: rgba(5, 82, 158, 0.9);
+           color:#fff;
+           border:none;
+           height:30px;
+           width:70px;
+           border-radius:30px;
+           font-weight:bold;
+           
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="index.html">back to home</a>
+        <h1>Nike Black Running Shoes</h1>
+
+        <p class="first">$39-in stock.</p>
+        <p>Free delivery tomorrow.</p>
+
+        <button class="cart">Add to Cart</button>
+        <button class="buy">Buy Now</button>
+    </div>
+    <!-- It for add to cart functionality -->
+
+    <div>
+        <p style="font-family:Tahoma">This is Tahoma Font </p>
+
+        <p style="font-family:Arial">
+            Biggest Deals of the Year!
+        </p>
+        <p class="for-style">
+            Sales end Tuesday
+        </p>
+    </div>
+
+    <img class="cat-image" src="../assets/images/cat-image.jpg">
+    <br>
+    <img class="cat-image-one" src="../assets/images/cat-image.jpg">
+    <br>
+    <img class="cat-image-two" src="../assets/images/cat-image.jpg">
+    <br>
+    <input class="search-bar" type="text" placeholder="Search">
+    <br>
+    <input class="search-bar-one" type="text" placeholder="Search Google or type a URL">
+    <br>
+    <p class="normal-text">Email</p>
+    <input class="email" type="email" placeholder="Enter your email">
+    <p class="normal-text">By clicking Agree&join,you agree to the Privacy Policy.</p>
+    <button class="agree-button">Agree & Join</button>
+    <div class="middle">
+        <img class="tweet-image" src="../assets/images/cat-image.jpg" alt="Cat image">
+        <input class="search-bar-two" type="text" placeholder="What's happening?">
+        <button class="tweet-one">Tweet</button>
+    </div>
+</body>

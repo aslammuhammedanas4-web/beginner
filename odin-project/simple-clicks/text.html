@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About YouTube</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         body {
             margin-left: 5px;
             margin-right: 5px;
-            margin-top:80px;
+            margin-top: 80px;
         }
 
         p {
@@ -19,14 +21,15 @@
             display: block;
             font-size: 20px;
         }
-
+        
         .video-title {
             font-weight: bold;
             font-size: 18px;
-            line-height: 30px;
+            line-height: 24px;
             padding-bottom: 0px;
             color: rgb(9, 9, 9);
-           
+            width: 300px;
+
 
         }
 
@@ -34,19 +37,30 @@
             padding-top: 2px;
 
         }
-        .person{
-            padding-top :20px;
-            padding-bottom:20px;
+
+        .person {
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
-        .footer{
+
+        .video-description {
+            line-height: 24px;
+            width: 380px;
+            margin-bottom: 100px;
+        }
+
+        .footer {
             background-color: rgb(227, 65, 64);
-            color:rgb(240,240,240);
-            text-align:center;
+            color: rgb(240, 240, 240);
+            text-align: center;
             font-size: 14px;
-            padding:18px;
-            display:block;
+            padding-top: 18px;
+            padding-bottom: 18px;
+            display: block;
+            margin-bottom: 20px;
         }
-        .footer-link:hover{
+
+        .footer-link:hover {
             text-decoration: underline;
             cursor: pointer;
         }
@@ -54,26 +68,27 @@
 </head>
 
 <body>
-    <a href="index.html">Back to home</a>
-    <i class="fa-brands fa-youtube" style="color: red; font-size: 24px;"></i>
+    <a href="index.html" style="padding-bottom:20px;">Back to home</a>
+    <br>
+    <i class=" fa-brands fa-youtube"style="color: #FF0000; font-size: 28px;"></i>
     <p class="video-title">
-        Talking Tech and AI with Google<br> CEO Sundar Pichai!
+        Talking Tech and AI with Google CEO Sundar Pichai!
     </p>
     <p class="video-status">
-        3.4M views · 6 months ago
+        3.4M views &#183; 6 months ago
     </p>
 
     <p class="person">
-        Marques Brownlee ✓
+        Marques Brownlee &#10003;
     </p>
-    <p>
-        Talking tech and AI on the heels of Google <br> I/O. Also a daily driver phone reveal from<br> Google's CEO. Shoutout to
+    <p class="video-description">
+        Talking tech and AI on the heels of Google I/O. Also a daily driver phone reveal from Google's CEO. Shoutout to
         Sundar!
     </p>
     <br>
     <p class="footer">
         Shop early for the best selection of holiday favourites.
-        <span class="footer-link">Shop now > </span>
+        <span class="footer-link">Shop now &#62; </span>
     </p>
 </body>
 
