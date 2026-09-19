@@ -1,0 +1,681 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Qur'an Reader</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f4f1e8;
+    color:#222;
+    font-family:Arial, sans-serif;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#075e54;
+    color:white;
+    padding:14px;
+    text-align:center;
+}
+
+header h1{
+    margin:0;
+    font-size:24px;
+}
+
+header p{
+    margin:5px 0 0;
+    font-size:13px;
+}
+
+.controls{
+    position:sticky;
+    top:70px;
+    z-index:99;
+    background:white;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    justify-content:center;
+}
+
+button{
+    border:none;
+    border-radius:8px;
+    padding:10px 13px;
+    background:#075e54;
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button.stop{
+    background:#b3261e;
+}
+
+button.secondary{
+    background:#555;
+}
+
+.speed{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    direction:ltr;
+}
+
+#speedValue{
+    min-width:45px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.searchBox{
+    width:100%;
+    padding:9px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+.reader{
+    max-width:900px;
+    margin:20px auto;
+    padding:20px;
+}
+
+.surah{
+    background:#fff;
+    margin-bottom:18px;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.surah-title{
+    text-align:center;
+    color:#075e54;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.ayah{
+    font-family:"Traditional Arabic","Amiri","Scheherazade New",serif;
+    font-size:30px;
+    line-height:2.3;
+    text-align:right;
+    margin:12px 0;
+    padding:8px;
+    border-bottom:1px solid #eee;
+}
+
+.ayah-number{
+    display:inline-flex;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#075e54;
+    color:white;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial;
+    font-size:14px;
+    margin-right:8px;
+    vertical-align:middle;
+}
+
+.highlight{
+    background:#fff3a6;
+    border-radius:8px;
+}
+
+.dark{
+    background:#121212;
+    color:#eee;
+}
+
+.dark header{
+    background:#003c36;
+}
+
+.dark .controls{
+    background:#1e1e1e;
+    border-color:#444;
+}
+
+.dark .surah{
+    background:#1e1e1e;
+    color:#eee;
+}
+
+.dark .surah-title{
+    color:#63d8c7;
+}
+
+.dark .ayah{
+    border-color:#444;
+}
+
+.dark .searchBox{
+    background:#333;
+    color:white;
+    border-color:#555;
+}
+
+.status{
+    position:fixed;
+    left:15px;
+    bottom:15px;
+    background:#075e54;
+    color:white;
+    padding:9px 13px;
+    border-radius:20px;
+    font-size:13px;
+    z-index:200;
+}
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:20px;
+    }
+
+    .controls{
+        top:62px;
+    }
+
+    .reader{
+        padding:10px;
+        margin:10px auto;
+    }
+
+    .surah{
+        padding:13px;
+    }
+
+    .ayah{
+        font-size:25px;
+        line-height:2.1;
+    }
+
+    button{
+        padding:9px 11px;
+        font-size:13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📖 القرآن الكريم</h1>
+    <p>Offline Qur'an Reader</p>
+</header>
+
+<div class="controls">
+
+    <button onclick="startAutoRead()">▶️ Auto Read</button>
+
+    <button onclick="pauseAutoRead()">
+        ⏸️ Pause
+    </button>
+
+    <button class="stop" onclick="stopAutoRead()">
+        ⏹️ Stop
+    </button>
+
+    <div class="speed">
+        <button onclick="changeSpeed(-1)">➖</button>
+        <span id="speedValue">1.0x</span>
+        <button onclick="changeSpeed(1)">➕</button>
+    </div>
+
+    <button onclick="changeFont(-2)">A−</button>
+    <button onclick="changeFont(2)">A+</button>
+
+    <button class="secondary" onclick="toggleDark()">
+        🌙
+    </button>
+
+    <input
+        id="search"
+        class="searchBox"
+        type="text"
+        placeholder="🔎 Search Arabic text..."
+        oninput="searchQuran()"
+    >
+
+</div>
+
+
+<div id="reader" class="reader"></div>
+
+<div id="status" class="status">
+    Ready
+</div>
+
+
+<script>
+
+/*
+=========================================================
+QUR'AN TEXT
+=========================================================
+
+Paste your Qur'an Arabic text inside this variable.
+
+Format:
+
+سورة الفاتحة
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+الرَّحْمَٰنِ الرَّحِيمِ
+...
+
+You can paste the complete text here.
+=========================================================
+*/
+
+const quranText = `
+
+سورة الفاتحة
+
+بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+
+الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+
+الرَّحْمَٰنِ الرَّحِيمِ
+
+مَالِكِ يَوْمِ الدِّينِ
+
+إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
+
+اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ
+
+صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ
+غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ
+وَلَا الضَّالِّينَ
+
+`;
+
+
+/* =========================
+   APP VARIABLES
+========================= */
+
+let autoReading = false;
+let paused = false;
+
+let speed = 1;
+
+let fontSize = 30;
+
+let scrollTimer = null;
+
+let currentPosition = 0;
+
+
+/* =========================
+   LOAD QURAN
+========================= */
+
+function loadQuran(){
+
+    const reader = document.getElementById("reader");
+
+    const lines = quranText
+        .split("\n")
+        .map(x => x.trim())
+        .filter(x => x.length > 0);
+
+    let html = "";
+
+    let ayahNumber = 1;
+
+    lines.forEach((line,index)=>{
+
+        if(line.startsWith("سورة")){
+
+            html += `
+                <div class="surah">
+                    <div class="surah-title">
+                        ${line}
+                    </div>
+            `;
+
+            ayahNumber = 1;
+
+        }else{
+
+            html += `
+                <div class="ayah" data-text="${line}">
+                    <span class="ayah-number">
+                        ${ayahNumber}
+                    </span>
+                    ${line}
+                </div>
+            `;
+
+            ayahNumber++;
+
+        }
+
+    });
+
+    html += "</div>";
+
+    reader.innerHTML = html;
+}
+
+
+/* =========================
+   AUTO READING
+========================= */
+
+function startAutoRead(){
+
+    if(autoReading && !paused){
+        return;
+    }
+
+    autoReading = true;
+    paused = false;
+
+    document.getElementById("status").innerText =
+        "▶️ Auto Reading";
+
+    clearInterval(scrollTimer);
+
+    /*
+       Smaller interval = faster scrolling
+    */
+
+    scrollTimer = setInterval(()=>{
+
+        if(!autoReading || paused){
+            return;
+        }
+
+        window.scrollBy({
+            top: speed,
+            left: 0,
+            behavior: "auto"
+        });
+
+        currentPosition = window.scrollY;
+
+        if(
+            window.innerHeight +
+            window.scrollY >=
+            document.body.offsetHeight - 5
+        ){
+
+            stopAutoRead();
+
+        }
+
+    },30);
+
+}
+
+
+/* =========================
+   PAUSE
+========================= */
+
+function pauseAutoRead(){
+
+    if(!autoReading){
+        return;
+    }
+
+    paused = true;
+
+    document.getElementById("status").innerText =
+        "⏸️ Paused";
+
+}
+
+
+/* =========================
+   STOP
+========================= */
+
+function stopAutoRead(){
+
+    autoReading = false;
+    paused = false;
+
+    clearInterval(scrollTimer);
+
+    document.getElementById("status").innerText =
+        "⏹️ Stopped";
+
+}
+
+
+/* =========================
+   SPEED
+========================= */
+
+function changeSpeed(value){
+
+    speed += value * 0.5;
+
+    if(speed < 0.5){
+        speed = 0.5;
+    }
+
+    if(speed > 10){
+        speed = 10;
+    }
+
+    document.getElementById("speedValue").innerText =
+        speed.toFixed(1) + "x";
+
+}
+
+
+/* =========================
+   FONT SIZE
+========================= */
+
+function changeFont(value){
+
+    fontSize += value;
+
+    if(fontSize < 18){
+        fontSize = 18;
+    }
+
+    if(fontSize > 60){
+        fontSize = 60;
+    }
+
+    document.querySelectorAll(".ayah").forEach(el=>{
+        el.style.fontSize = fontSize + "px";
+    });
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function toggleDark(){
+
+    document.body.classList.toggle("dark");
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchQuran(){
+
+    const value =
+        document.getElementById("search")
+        .value
+        .trim();
+
+    const ayahs =
+        document.querySelectorAll(".ayah");
+
+    ayahs.forEach(ayah=>{
+
+        ayah.classList.remove("highlight");
+
+    });
+
+    if(value === ""){
+        return;
+    }
+
+    let firstMatch = null;
+
+    ayahs.forEach(ayah=>{
+
+        const text =
+            ayah.getAttribute("data-text");
+
+        if(text.includes(value)){
+
+            ayah.classList.add("highlight");
+
+            if(!firstMatch){
+                firstMatch = ayah;
+            }
+
+        }
+
+    });
+
+    if(firstMatch){
+
+        firstMatch.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    }
+
+}
+
+
+/* =========================
+   KEYBOARD SHORTCUTS
+========================= */
+
+document.addEventListener("keydown",function(e){
+
+    if(e.code === "Space"){
+
+        e.preventDefault();
+
+        if(!autoReading){
+
+            startAutoRead();
+
+        }else if(paused){
+
+            startAutoRead();
+
+        }else{
+
+            pauseAutoRead();
+
+        }
+
+    }
+
+    if(e.key === "Escape"){
+
+        stopAutoRead();
+
+    }
+
+});
+
+
+/* =========================
+   SAVE FONT SIZE
+========================= */
+
+function saveSettings(){
+
+    localStorage.setItem(
+        "quranFontSize",
+        fontSize
+    );
+
+}
+
+
+/* =========================
+   LOAD SETTINGS
+========================= */
+
+function loadSettings(){
+
+    const saved =
+        localStorage.getItem("quranFontSize");
+
+    if(saved){
+
+        fontSize = Number(saved);
+
+    }
+
+}
+
+
+/* =========================
+   SAVE ON CHANGE
+========================= */
+
+window.addEventListener("beforeunload",saveSettings);
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+loadSettings();
+
+loadQuran();
+
+setTimeout(()=>{
+
+    document.querySelectorAll(".ayah").forEach(el=>{
+        el.style.fontSize = fontSize + "px";
+    });
+
+},100);
+
+</script>
+
+</body>
+</html>
+```

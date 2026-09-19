@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RJ Supermarket</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>🛒 RJ Supermarket</h1>
+
+        <p>Everything you need, in one place.</p>
+    </header>
+
+
+    <!-- Search -->
+   <section class="search">
+    <input 
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Search products..."
+        oninput="searchProducts()"
+    >
+</section>
+
+
+    <!-- Categories -->
+    <section>
+        <h2>Categories</h2>
+
+        <div class="category" onclick="filterCategory('Vegetables')">
+    🥦
+    <p>Vegetables</p>
+</div>
+
+<div class="category" onclick="filterCategory('Fruits')">
+    🍎
+    <p>Fruits</p>
+</div>
+
+<div class="category" onclick="filterCategory('Dairy')">
+    🥛
+    <p>Dairy</p>
+</div>
+
+<div class="category" onclick="filterCategory('Grocery')">
+    🍚
+    <p>Grocery</p>
+</div>
+
+<div class="category" onclick="filterCategory('Snacks')">
+    🍪
+    <p>Snacks</p>
+</div>
+
+        </div>
+    </section>
+
+
+    <!-- Offers -->
+    <section>
+        <h2>🔥 Today's Offers</h2>
+
+        <div class="offer">
+            <h3>Fresh Vegetables</h3>
+            <p>Up to 20% OFF</p>
+            <button>Shop Now</button>
+        </div>
+    </section>
+
+
+    <!-- Products -->
+    <section>
+        <h2>Popular Products</h2>
+
+       <section>
+    <h2>Popular Products</h2>
+
+    <div class="products"></div>
+</section>
+
+        </div>
+    </section>
+
+
+    <!-- Cart -->
+    <section class="cart-section">
+
+    <h2>🛒 My Cart</h2>
+
+    <div id="cart-items">
+        <p>Your cart is empty.</p>
+    </div>
+
+    <h3 id="cart-total">Total: ₹0</h3>
+
+    <button onclick="clearCart()">Clear Cart</button>
+
+</section>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

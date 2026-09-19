@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Suhba Islamic App v10.0</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+ --p:#087f5b;--p2:#099268;--bg:#f3f8f5;
+ --card:#fff;--text:#17251f;--muted:#718078;
+ --border:#dce7e1;
+}
+body.dark{
+ --bg:#101614;--card:#1b2421;--text:#f1f5f3;
+ --muted:#aebbb5;--border:#35433d;
+}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,"Segoe UI",sans-serif;
+ padding-bottom:80px;
+}
+body.rtl{font-family:"Noto Naskh Arabic","Segoe UI",Arial}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{
+ background:linear-gradient(135deg,#056044,#099268);
+ color:white;padding:20px 16px;border-radius:0 0 25px 25px
+}
+.head{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:27px;font-weight:bold}
+.theme{border:0;background:#ffffff22;color:white;border-radius:50%;
+width:44px;height:44px;font-size:20px}
+.date{margin-top:12px;background:#ffffff18;padding:10px;border-radius:10px}
+.container{max-width:950px;margin:auto;padding:15px}
+.page{display:none}.page.active{display:block}
+.title{color:var(--p2);margin:12px 0 16px}
+.card,.list,.category,.pdf{
+ background:var(--card);border-radius:17px;padding:17px;
+ margin-bottom:12px;box-shadow:0 3px 13px #0000000b
+}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.menu{border:0;background:var(--card);color:var(--text);
+border-radius:17px;padding:19px 7px;box-shadow:0 3px 10px #0001}
+.menu span{display:block;font-size:28px;margin-bottom:7px}
+.back{border:0;background:#e3f0eb;color:var(--p);
+padding:10px 14px;border-radius:10px;margin-bottom:15px}
+body.dark .back{background:#293932;color:#9de6ce}
+.btn{border:0;background:var(--p);color:white;padding:10px 14px;
+border-radius:9px;margin:3px}
+.red{background:#c62828}.gold{background:#a66b00}.gray{background:#64748b}
+.search,.full{width:100%;padding:12px;border:1px solid var(--border);
+border-radius:10px;background:var(--card);color:var(--text)}
+.search{margin-bottom:12px}
+.row{display:flex;align-items:center;gap:12px}
+.flex{flex:1}
+.number{min-width:44px;height:44px;border-radius:50%;background:#e2f4ed;
+color:var(--p);display:flex;align-items:center;justify-content:center;font-weight:bold}
+.arabic{direction:rtl;text-align:right;font-family:"Noto Naskh Arabic","Traditional Arabic",serif;
+font-size:27px;line-height:2}
+.ayah{background:var(--card);padding:19px;border-radius:17px;margin-bottom:10px}
+.ayah.playing{outline:3px solid var(--p)}
+.ayahtext{direction:rtl;text-align:right;font-family:"Noto Naskh Arabic","Traditional Arabic",serif;
+font-size:27px;line-height:2.2}
+.an{display:inline-flex;width:30px;height:30px;border-radius:50%;
+background:#e2f4ed;color:var(--p);align-items:center;justify-content:center;font-size:12px}
+.center{text-align:center}
+.counter{font-size:70px;color:var(--p);font-weight:bold;margin:20px}
+.counterBtn{width:155px;height:155px;border:0;border-radius:50%;
+background:var(--p);color:white;font-size:25px}
+.progress{height:12px;background:var(--border);border-radius:20px;overflow:hidden}
+.bar{height:100%;width:0;background:var(--p)}
+.prayer{display:flex;justify-content:space-between;padding:14px 3px;
+border-bottom:1px solid var(--border)}
+.prayer:last-child{border:0}
+.time{color:var(--p);font-weight:bold}
+.nav{position:fixed;bottom:0;left:0;right:0;height:76px;background:var(--card);
+display:flex;justify-content:space-around;align-items:center;box-shadow:0 -3px 14px #0002;z-index:20}
+.nav button{border:0;background:none;color:var(--muted);font-size:10px}
+.nav span{display:block;font-size:20px;margin-bottom:3px}
+.nav button.active{color:var(--p);font-weight:bold}
+.small{font-size:13px;color:var(--muted)}
+.loading{text-align:center;padding:25px;color:var(--muted)}
+@media(max-width:500px){.ayahtext{font-size:24px}.arabic{font-size:24px}}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="head">
+<div>
+<div class="logo" data-i18n="app">🕌 Suhba</div>
+<div data-i18n="subtitle">Islamic Knowledge & Adhkār</div>
+</div>
+<button class="theme" onclick="darkMode()">🌙</button>
+</div>
+<div id="date" class="date"></div>
+</header>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="page active">
+<h2 class="title" data-i18n="welcome">Assalamu Alaikum</h2>
+
+<div class="card">
+<h3 data-i18n="ayahToday">📖 Today's Ayah</h3>
+<div class="arabic">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+<p>Indeed, with hardship comes ease.</p>
+</div>
+
+<div class="card">
+<h3 data-i18n="duaToday">🤲 Today's Dua</h3>
+<div class="arabic">رَبِّ زِدْنِي عِلْمًا</div>
+<p>My Lord, increase me in knowledge.</p>
+</div>
+
+<div class="grid">
+
+<button class="menu" onclick="show('quran')">
+<span>📖</span><span data-i18n="quran">Qur'an</span>
+</button>
+
+<button class="menu" onclick="show('adhkar')">
+<span>📿</span><span data-i18n="adhkar">Adhkār</span>
+</button>
+
+<button class="menu" onclick="show('dua')">
+<span>🤲</span><span data-i18n="dua">Dua</span>
+</button>
+
+<button class="menu" onclick="show('mawlid')">
+<span>🌙</span><span data-i18n="mawlid">Mawlid</span>
+</button>
+
+<button class="menu" onclick="show('hadith')">
+<span>📜</span><span data-i18n="hadith">Hadith</span>
+</button>
+
+<button class="menu" onclick="show('tasbeeh')">
+<span>📿</span><span data-i18n="tasbeeh">Digital Tasbeeh</span>
+</button>
+
+<button class="menu" onclick="show('prayer')">
+<span>🕌</span><span data-i18n="prayer">Prayer Times</span>
+</button>
+
+<button class="menu" onclick="show('pdf')">
+<span>📚</span><span data-i18n="pdf">PDF Library</span>
+</button>
+
+</div>
+</section>
+
+
+<!-- QURAN -->
+<section id="quran" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">📖 <span data-i18n="quran">Qur'an</span></h2>
+<input id="surahSearch" class="search" placeholder="Search Surah..." oninput="searchSurah()">
+<div id="surahs"><div class="loading">Loading Qur'an...</div></div>
+</section>
+
+
+<!-- QURAN READER -->
+<section id="reader" class="page">
+<button class="back" onclick="show('quran')">← Surahs</button>
+
+<div class="card center">
+<h2 id="surahName"></h2>
+<div id="surahArabic" class="arabic"></div>
+
+<button class="btn" onclick="play()">▶️</button>
+<button class="btn gold" onclick="pause()">⏸️</button>
+<button class="btn" onclick="resume()">▶️</button>
+<button class="btn red" onclick="stop()">⏹️</button>
+
+<p id="audioStatus" class="small"></p>
+</div>
+
+<div id="ayahs"></div>
+</section>
+
+
+<!-- ADHKAR -->
+<section id="adhkar" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">📿 <span data-i18n="adhkar">Adhkār</span></h2>
+
+<div class="category" onclick="adhkar('morning')">🌅 <b>Morning Adhkār</b></div>
+<div class="category" onclick="adhkar('evening')">🌇 <b>Evening Adhkār</b></div>
+<div class="category" onclick="adhkar('after')">🕌 <b>After Salah Adhkār</b></div>
+<div class="category" onclick="adhkar('sleep')">🌙 <b>Before Sleep</b></div>
+<div class="category" onclick="adhkar('wake')">🌅 <b>After Waking Up</b></div>
+</section>
+
+
+<section id="adhkarReader" class="page">
+<button class="back" onclick="show('adhkar')">← Adhkār</button>
+<h2 id="adhkarTitle" class="title"></h2>
+<div id="adhkarContent"></div>
+</section>
+
+
+<!-- DUA -->
+<section id="dua" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">🤲 <span data-i18n="dua">Dua</span></h2>
+
+<div class="category" onclick="dua('hard')">🤲 Difficult Times</div>
+<div class="category" onclick="dua('worry')">🤲 Worry & Anxiety</div>
+<div class="category" onclick="dua('forgive')">🤲 Forgiveness</div>
+<div class="category" onclick="dua('knowledge')">🤲 Knowledge</div>
+<div class="category" onclick="dua('parents')">🤲 Parents</div>
+<div class="category" onclick="dua('rizq')">🤲 Rizq</div>
+</section>
+
+
+<section id="duaReader" class="page">
+<button class="back" onclick="show('dua')">← Dua</button>
+<h2 id="duaTitle" class="title"></h2>
+<div id="duaContent"></div>
+</section>
+
+
+<!-- MAWLID -->
+<section id="mawlid" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">🌙 <span data-i18n="mawlid">Mawlid</span></h2>
+
+<div id="mawlidList"></div>
+</section>
+
+
+<section id="mawlidReader" class="page">
+<button class="back" onclick="show('mawlid')">← Mawlid</button>
+<div class="card">
+<h2 id="mTitle"></h2>
+<input id="mFile" type="file" accept="application/pdf">
+<br><br>
+<button class="btn" onclick="uploadMawlid()">📄 Upload PDF</button>
+<button id="mOpen" class="btn gold" style="display:none" onclick="openMawlid()">📖 Open PDF</button>
+</div>
+</section>
+
+
+<!-- HADITH -->
+<section id="hadith" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">📜 Hadith</h2>
+<div class="card">
+<div class="arabic">إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ</div>
+<br>
+<p>Actions are judged by intentions.</p>
+</div>
+</section>
+
+
+<!-- TASBEEH -->
+<section id="tasbeeh" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<div class="card center">
+<h2>📿 Digital Tasbeeh</h2>
+
+<label>Target</label><br><br>
+<input id="target" type="number" value="100" min="1">
+<button class="btn" onclick="setTarget()">Set</button>
+
+<div id="count" class="counter">0</div>
+
+<p>Target: <b id="targetShow">100</b></p>
+
+<div class="progress">
+<div id="bar" class="bar"></div>
+</div>
+
+<p id="remain"></p>
+
+<button class="counterBtn" onclick="increment()">📿</button>
+
+<br><br>
+<button class="btn red" onclick="resetCounter()">Reset</button>
+</div>
+</section>
+
+
+<!-- PRAYER -->
+<section id="prayer" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">🕌 <span data-i18n="prayer">Prayer Times</span></h2>
+
+<div class="card">
+
+<div id="locationStatus" class="small">
+Location not selected
+</div>
+
+<button class="btn" onclick="getLocation()">
+📍 Use My Location
+</button>
+
+<button class="btn gray" onclick="loadPrayerTimes()">
+🔄 Refresh
+</button>
+
+<hr>
+
+<div class="prayer">
+<span>🌅 Fajr</span><strong id="fajr" class="time">--:--</strong>
+</div>
+<div class="prayer">
+<span>☀️ Dhuhr</span><strong id="dhuhr" class="time">--:--</strong>
+</div>
+<div class="prayer">
+<span>🌤️ Asr</span><strong id="asr" class="time">--:--</strong>
+</div>
+<div class="prayer">
+<span>🌇 Maghrib</span><strong id="maghrib" class="time">--:--</strong>
+</div>
+<div class="prayer">
+<span>🌙 Isha</span><strong id="isha" class="time">--:--</strong>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔔 Prayer Alarm</h3>
+
+<p class="small">
+Enable browser notifications to receive prayer alerts.
+</p>
+
+<button class="btn" onclick="enableNotifications()">
+🔔 Enable Notifications
+</button>
+
+<label>
+<input id="alarmEnabled" type="checkbox" onchange="saveAlarmSetting()">
+ Enable Prayer Alarm
+</label>
+
+</div>
+
+</section>
+
+
+<!-- PDF -->
+<section id="pdf" class="page">
+<button class="back" onclick="show('home')">← Home</button>
+<h2 class="title">📚 PDF Library</h2>
+
+<div class="card">
+<input id="pdfFile" type="file" accept="application/pdf">
+<br><br>
+<button class="btn" onclick="savePDF()">💾 Save PDF</button>
+</div>
+
+<div id="pdfList"></div>
+</section>
+
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+<h2 class="title">⚙️ <span data-i18n="settings">Settings</span></h2>
+
+<div class="card">
+<b>🌐 Language</b><br><br>
+
+<select id="lang" onchange="setLanguage()">
+<option value="en">🇬🇧 English</option>
+<option value="ar">🇸🇦 العربية</option>
+<option value="ml">🇮🇳 മലയാളം</option>
+<option value="es">🇪🇸 Español</option>
+<option value="zh">🇨🇳 中文</option>
+<option value="ur">🇵🇰 اردو</option>
+<option value="ja">🇯🇵 日本語</option>
+</select>
+</div>
+
+<div class="card">
+<b>🌙 Dark Mode</b>
+<button class="btn" onclick="darkMode()">Toggle</button>
+</div>
+
+<div class="card">
+<b>ℹ️ Suhba Islamic App</b>
+<p class="small">Version 10.0</p>
+</div>
+
+</section>
+
+</div>
+
+
+<!-- NAV -->
+<nav class="nav">
+
+<button class="active" onclick="nav('home',this)">
+<span>🏠</span>Home
+</button>
+
+<button onclick="nav('quran',this)">
+<span>📖</span>Qur'an
+</button>
+
+<button onclick="nav('adhkar',this)">
+<span>📿</span>Adhkār
+</button>
+
+<button onclick="nav('dua',this)">
+<span>🤲</span>Dua
+</button>
+
+<button onclick="nav('settings',this)">
+<span>⚙️</span>Settings
+</button>
+
+</nav>
+
+
+<script>
+
+/* =========================
+LANGUAGES
+========================= */
+
+const T={
+en:{
+app:"🕌 Suhba",
+subtitle:"Islamic Knowledge & Adhkār",
+welcome:"Assalamu Alaikum",
+ayahToday:"📖 Today's Ayah",
+duaToday:"🤲 Today's Dua",
+quran:"Qur'an",
+adhkar:"Adhkār",
+dua:"Dua",
+mawlid:"Mawlid",
+hadith:"Hadith",
+tasbeeh:"Digital Tasbeeh",
+prayer:"Prayer Times",
+pdf:"PDF Library",
+settings:"Settings"
+},
+ar:{
+app:"🕌 صحبة",
+subtitle:"المعرفة الإسلامية والأذكار",
+welcome:"السلام عليكم ورحمة الله وبركاته",
+ayahToday:"📖 آية اليوم",
+duaToday:"🤲 دعاء اليوم",
+quran:"القرآن",
+adhkar:"الأذكار",
+dua:"الدعاء",
+mawlid:"المولد",
+hadith:"الحديث",
+tasbeeh:"العداد الرقمي",
+prayer:"أوقات الصلاة",
+pdf:"مكتبة PDF",
+settings:"الإعدادات"
+},
+ml:{
+app:"🕌 സുഹ്ബ",
+subtitle:"ഇസ്ലാമിക വിജ്ഞാനവും ദിക്റുകളും",
+welcome:"അസ്സലാമു അലൈക്കും",
+ayahToday:"📖 ഇന്നത്തെ ആയത്ത്",
+duaToday:"🤲 ഇന്നത്തെ ദുആ",
+quran:"ഖുർആൻ",
+adhkar:"അദ്കാർ",
+dua:"ദുആ",
+mawlid:"മൗലിദ്",
+hadith:"ഹദീസ്",
+tasbeeh:"ഡിജിറ്റൽ തസ്ബീഹ്",
+prayer:"നമസ്കാര സമയം",
+pdf:"PDF ലൈബ്രറി",
+settings:"ക്രമീകരണങ്ങൾ"
+},
+es:{
+app:"🕌 Suhba",
+subtitle:"Conocimiento Islámico y Adhkār",
+welcome:"Assalamu Alaikum",
+ayahToday:"📖 Ayah de Hoy",
+duaToday:"🤲 Dua de Hoy",
+quran:"Corán",
+adhkar:"Adhkār",
+dua:"Dua",
+mawlid:"Mawlid",
+hadith:"Hadiz",
+tasbeeh:"Tasbeeh Digital",
+prayer:"Horarios de Oración",
+pdf:"Biblioteca PDF",
+settings:"Configuración"
+},
+zh:{
+app:"🕌 苏赫巴",
+subtitle:"伊斯兰知识与记念",
+welcome:"愿你平安",
+ayahToday:"📖 今日经文",
+duaToday:"🤲 今日祈祷",
+quran:"古兰经",
+adhkar:"记念",
+dua:"祈祷",
+mawlid:"圣纪",
+hadith:"圣训",
+tasbeeh:"数字念珠",
+prayer:"礼拜时间",
+pdf:"PDF库",
+settings:"设置"
+},
+ur:{
+app:"🕌 صحبہ",
+subtitle:"اسلامی علم اور اذکار",
+welcome:"السلام علیکم",
+ayahToday:"📖 آج کی آیت",
+duaToday:"🤲 آج کی دعا",
+quran:"قرآن",
+adhkar:"اذکار",
+dua:"دعا",
+mawlid:"مولد",
+hadith:"حدیث",
+tasbeeh:"ڈیجیٹل تسبیح",
+prayer:"نماز کے اوقات",
+pdf:"PDF لائبریری",
+settings:"ترتیبات"
+},
+ja:{
+app:"🕌 スフバ",
+subtitle:"イスラムの知識とズィクル",
+welcome:"アッサラーム・アライクム",
+ayahToday:"📖 今日のアーヤ",
+duaToday:"🤲 今日のドゥアー",
+quran:"クルアーン",
+adhkar:"ズィクル",
+dua:"ドゥアー",
+mawlid:"マウリド",
+hadith:"ハディース",
+tasbeeh:"デジタル・タスビーフ",
+prayer:"礼拝時間",
+pdf:"PDFライブラリ",
+settings:"設定"
+}
+};
+
+let lang=localStorage.getItem("lang")||"en";
+
+function setLanguage(){
+ lang=document.getElementById("lang").value;
+ localStorage.setItem("lang",lang);
+ applyLanguage();
+}
+
+function applyLanguage(){
+
+ document.querySelectorAll("[data-i18n]").forEach(el=>{
+  let key=el.dataset.i18n;
+  if(T[lang][key])el.textContent=T[lang][key];
+ });
+
+ document.documentElement.lang=lang;
+
+ if(["ar","ur"].includes(lang)){
+  document.documentElement.dir="rtl";
+  document.body.classList.add("rtl");
+ }else{
+  document.documentElement.dir="ltr";
+  document.body.classList.remove("rtl");
+ }
+
+ document.getElementById("lang").value=lang;
+ updateDate();
+}
+
+
+/* =========================
+NAVIGATION
+========================= */
+
+function show(id){
+
+ document.querySelectorAll(".page")
+ .forEach(p=>p.classList.remove("active"));
+
+ document.getElementById(id).classList.add("active");
+
+ window.scrollTo(0,0);
+}
+
+function nav(id,button){
+
+ show(id);
+
+ document.querySelectorAll(".nav button")
+ .forEach(x=>x.classList.remove("active"));
+
+ button.classList.add("active");
+}
+
+
+/* =========================
+DARK MODE
+========================= */
+
+function darkMode(){
+
+ let on=document.body.classList.toggle("dark");
+
+ localStorage.setItem("dark",on);
+}
+
+if(localStorage.getItem("dark")==="true"){
+ document.body.classList.add("dark");
+}
+
+
+/* =========================
+DATE
+========================= */
+
+function updateDate(){
+
+ let locale={
+  en:"en-IN",ar:"ar-SA",ml:"ml-IN",
+  es:"es-ES",zh:"zh-CN",ur:"ur-PK",ja:"ja-JP"
+ }[lang];
+
+ document.getElementById("date").textContent=
+ new Date().toLocaleDateString(locale,{
+  weekday:"long",
+  year:"numeric",
+  month:"long",
+  day:"numeric"
+ });
+}
+
+
+/* =========================
+QURAN
+========================= */
+
+const QAPI="https://api.alquran.cloud/v1";
+let surahs=[];
+let ayahs=[];
+let index=0;
+let audio=null;
+let playing=false;
+
+async function loadQuran(){
+
+ try{
+
+  let r=await fetch(QAPI+"/surah");
+  let d=await r.json();
+
+  surahs=d.data;
+  renderSurahs();
+
+ }catch(e){
+
+  document.getElementById("surahs").innerHTML=
+  "<div class='card'>Internet connection required.</div>";
+
+ }
+}
+
+function renderSurahs(list=surahs){
+
+ document.getElementById("surahs").innerHTML=
+ list.map(s=>`
+
+ <div class="list" onclick="openSurah(${s.number})">
+
+ <div class="row">
+
+ <div class="number">${s.number}</div>
+
+ <div class="flex">
+
+ <div class="arabic">${s.name}</div>
+ <b>${s.englishName}</b>
+ <div class="small">${s.numberOfAyahs} Ayahs</div>
+
+ </div>
+
+ </div>
+
+ </div>
+
+ `).join("");
+}
+
+function searchSurah(){
+
+ let q=document.getElementById("surahSearch").value.toLowerCase();
+
+ renderSurahs(
+  surahs.filter(s=>
+   s.englishName.toLowerCase().includes(q)||
+   s.name.includes(q)||
+   String(s.number).includes(q)
+  )
+ );
+}
+
+async function openSurah(n){
+
+ show("reader");
+ stop();
+
+ document.getElementById("ayahs").innerHTML=
+ "<div class='loading'>Loading...</div>";
+
+ try{
+
+  let r=await fetch(QAPI+"/surah/"+n+"/ar.alafasy");
+  let d=await r.json();
+  let s=d.data;
+
+  ayahs=s.ayahs;
+  index=0;
+
+  document.getElementById("surahName").textContent=s.englishName;
+  document.getElementById("surahArabic").textContent=s.name;
+
+  document.getElementById("ayahs").innerHTML=
+  ayahs.map((a,i)=>`
+
+  <div class="ayah" id="a${i}">
+   <div class="ayahtext">
+   ${a.text}
+   <span class="an">${a.numberInSurah}</span>
+   </div>
+  </div>
+
+  `).join("");
+
+ }catch(e){
+
+  document.getElementById("ayahs").innerHTML=
+  "<div class='card'>Unable to load Surah.</div>";
+
+ }
+}
+
+function play(){
+
+ if(!ayahs.length)return;
+
+ playing=true;
+ playCurrent();
+}
+
+function playCurrent(){
+
+ if(!playing)return;
+
+ if(index>=ayahs.length){
+
+  playing=false;
+  return;
+ }
+
+ document.querySelectorAll(".ayah")
+ .forEach(x=>x.classList.remove("playing"));
+
+ let el=document.getElementById("a"+index);
+
+ if(el){
+  el.classList.add("playing");
+  el.scrollIntoView({behavior:"smooth",block:"center"});
+ }
+
+ audio=new Audio(ayahs[index].audio);
+
+ document.getElementById("audioStatus").textContent=
+ "▶️ Ayah "+(index+1);
+
+ audio.play();
+
+ audio.onended=()=>{
+  index++;
+  playCurrent();
+ };
+}
+
+function pause(){
+
+ if(audio){
+  audio.pause();
+  playing=false;
+  document.getElementById("audioStatus").textContent="⏸️ Paused";
+ }
+}
+
+function resume(){
+
+ if(audio){
+  playing=true;
+  audio.play();
+ }else play();
+}
+
+function stop(){
+
+ playing=false;
+ index=0;
+
+ if(audio){
+  audio.pause();
+  audio.currentTime=0;
+  audio=null;
+ }
+
+ document.querySelectorAll(".ayah")
+ .forEach(x=>x.classList.remove("playing"));
+}
+
+
+/* =========================
+ADHKAR
+========================= */
+
+const AD={
+morning:[
+"أَسْتَغْفِرُ اللَّهَ",
+"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+"لَا إِلَهَ إِلَّا اللَّهُ"
+],
+evening:[
+"أَسْتَغْفِرُ اللَّهَ",
+"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ"
+],
+after:[
+"أَسْتَغْفِرُ اللَّهَ",
+"سُبْحَانَ اللَّهِ",
+"الْحَمْدُ لِلَّهِ",
+"اللَّهُ أَكْبَرُ"
+],
+sleep:[
+"اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا",
+"اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ"
+],
+wake:[
+"الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ"
+]
+};
+
+function adhkar(type){
+
+ document.getElementById("adhkarTitle").textContent=
+ type==="morning"?"🌅 Morning Adhkār":
+ type==="evening"?"🌇 Evening Adhkār":
+ type==="after"?"🕌 After Salah Adhkār":
+ type==="sleep"?"🌙 Before Sleep":"🌅 After Waking Up";
+
+ document.getElementById("adhkarContent").innerHTML=
+ AD[type].map(x=>`
+ <div class="card">
+ <div class="arabic">${x}</div>
+ </div>
+ `).join("");
+
+ show("adhkarReader");
+}
+
+
+/* =========================
+DUA
+========================= */
+
+const DUAS={
+hard:["Difficult Times",
+"لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ"],
+worry:["Worry & Anxiety",
+"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ"],
+forgive:["Forgiveness",
+"رَبِّ اغْفِرْ لِي وَارْحَمْنِي"],
+knowledge:["Knowledge",
+"رَبِّ زِدْنِي عِلْمًا"],
+parents:["Parents",
+"رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"],
+rizq:["Rizq",
+"رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ"]
+};
+
+function dua(key){
+
+ document.getElementById("duaTitle").textContent=
+ "🤲 "+DUAS[key][0];
+
+ document.getElementById("duaContent").innerHTML=`
+ <div class="card">
+ <div class="arabic">${DUAS[key][1]}</div>
+ </div>
+ `;
+
+ show("duaReader");
+}
+
+
+/* =========================
+MAWLID
+========================= */
+
+const MA=[
+["Manqoos Mawlid","منقوص مولد"],
+["Sharaf ul Anam","شرف الأنام"],
+["Badr Mawlid","مولد بدر"],
+["Ya Akram Baith","يا أكرم بيت"],
+["Salam Baith","سلام بيت"],
+["Qutbiyyath","القطبية"]
+];
+
+let selected=0;
+
+function renderMawlid(){
+
+ document.getElementById("mawlidList").innerHTML=
+ MA.map((m,i)=>`
+
+ <div class="list">
+ <div class="row">
+
+ <div class="number">${i+1}</div>
+
+ <div class="flex">
+ <b>🌙 ${m[0]}</b>
+ </div>
+
+ <button class="btn" onclick="selectMawlid(${i})">
+ 📄
+ </button>
+
+ </div>
+ </div>
+
+ `).join("");
+}
+
+function selectMawlid(i){
+
+ selected=i;
+
+ document.getElementById("mTitle").textContent=MA[i][0];
+
+ let data=localStorage.getItem("mPDF"+i);
+
+ document.getElementById("mOpen").style.display=
+ data?"inline-block":"none";
+
+ show("mawlidReader");
+}
+
+function uploadMawlid(){
+
+ let file=document.getElementById("mFile").files[0];
+
+ if(!file||file.type!=="application/pdf"){
+  alert("Please select a PDF.");
+  return;
+ }
+
+ let reader=new FileReader();
+
+ reader.onload=()=>{
+
+  try{
+
+   localStorage.setItem("mPDF"+selected,reader.result);
+
+   document.getElementById("mOpen").style.display="inline-block";
+
+   alert("PDF saved.");
+
+  }catch(e){
+
+   alert("PDF is too large for browser storage.");
+
+  }
+ };
+
+ reader.readAsDataURL(file);
+}
+
+function openMawlid(){
+
+ let data=localStorage.getItem("mPDF"+selected);
+
+ if(!data)return;
+
+ let w=window.open();
+
+ w.document.write(
+ `<iframe src="${data}" style="width:100%;height:100vh;border:0"></iframe>`
+ );
+}
+
+
+/* =========================
+TASBEEH
+========================= */
+
+let count=Number(localStorage.getItem("count"))||0;
+let target=Number(localStorage.getItem("target"))||100;
+
+function updateCounter(){
+
+ document.getElementById("count").textContent=count;
+ document.getElementById("targetShow").textContent=target;
+
+ let p=Math.min(count/target*100,100);
+
+ document.getElementById("bar").style.width=p+"%";
+
+ document.getElementById("remain").textContent=
+ count>=target
+ ?"🎉 Target Completed!"
+ :"Remaining: "+(target-count);
+}
+
+function increment(){
+
+ if(count>=target){
+  alert("🎉 Target Completed!");
+  return;
+ }
+
+ count++;
+
+ localStorage.setItem("count",count);
+
+ updateCounter();
+}
+
+function setTarget(){
+
+ target=Math.max(
+  1,
+  Number(document.getElementById("target").value)
+ );
+
+ localStorage.setItem("target",target);
+
+ updateCounter();
+}
+
+function resetCounter(){
+
+ count=0;
+ localStorage.setItem("count",0);
+ updateCounter();
+}
+
+
+/* =========================
+AUTOMATIC PRAYER TIMES
+========================= */
+
+let latitude=null;
+let longitude=null;
+let prayerData=null;
+
+function getLocation(){
+
+ if(!navigator.geolocation){
+
+  alert("Geolocation is not supported.");
+  return;
+ }
+
+ document.getElementById("locationStatus").textContent=
+ "Getting location...";
+
+ navigator.geolocation.getCurrentPosition(
+
+  position=>{
+
+   latitude=position.coords.latitude;
+   longitude=position.coords.longitude;
+
+   localStorage.setItem("lat",latitude);
+   localStorage.setItem("lon",longitude);
+
+   document.getElementById("locationStatus").textContent=
+   "📍 Location detected";
+
+   loadPrayerTimes();
+
+  },
+
+  error=>{
+
+   document.getElementById("locationStatus").textContent=
+   "Location permission was not granted.";
+
+  },
+
+  {
+   enableHighAccuracy:true,
+   timeout:10000
+  }
+ );
+}
+
+
+async function loadPrayerTimes(){
+
+ if(latitude===null){
+
+  latitude=Number(localStorage.getItem("lat"))||null;
+  longitude=Number(localStorage.getItem("lon"))||null;
+
+ }
+
+ if(latitude===null){
+
+  document.getElementById("locationStatus").textContent=
+  "📍 Please use My Location.";
+
+  return;
+ }
+
+ let today=new Date();
+
+ let date=
+ today.getDate()+"-"+
+ (today.getMonth()+1)+"-"+
+ today.getFullYear();
+
+ try{
+
+  /*
+   AlAdhan Prayer Times API
+  */
+
+  let url=
+  "https://api.aladhan.com/v1/timings/"
+  +date+
+  "?latitude="+latitude+
+  "&longitude="+longitude+
+  "&method=4";
+
+  let response=await fetch(url);
+  let data=await response.json();
+
+  prayerData=data.data.timings;
+
+  document.getElementById("fajr").textContent=
+  cleanTime(prayerData.Fajr);
+
+  document.getElementById("dhuhr").textContent=
+  cleanTime(prayerData.Dhuhr);
+
+  document.getElementById("asr").textContent=
+  cleanTime(prayerData.Asr);
+
+  document.getElementById("maghrib").textContent=
+  cleanTime(prayerData.Maghrib);
+
+  document.getElementById("isha").textContent=
+  cleanTime(prayerData.Isha);
+
+  document.getElementById("locationStatus").textContent=
+  "📍 Prayer times updated automatically";
+
+ }catch(e){
+
+  document.getElementById("locationStatus").textContent=
+  "Unable to load prayer times.";
+
+ }
+}
+
+function cleanTime(t){
+
+ return t ? t.split(" ")[0] : "--:--";
+}
+
+
+/* =========================
+NOTIFICATIONS / ALARM
+========================= */
+
+async function enableNotifications(){
+
+ if(!("Notification" in window)){
+
+  alert("Notifications are not supported.");
+  return;
+ }
+
+ let permission=
+ await Notification.requestPermission();
+
+ if(permission==="granted"){
+
+  alert("🔔 Notifications enabled.");
+
+ }else{
+
+  alert("Notification permission denied.");
+
+ }
+}
+
+function saveAlarmSetting(){
+
+ let enabled=
+ document.getElementById("alarmEnabled").checked;
+
+ localStorage.setItem(
+  "alarmEnabled",
+  enabled
+ );
+}
+
+function checkPrayerAlarm(){
+
+ if(localStorage.getItem("alarmEnabled")!=="true")
+ return;
+
+ if(!prayerData)return;
+
+ let now=new Date();
+
+ let current=
+ String(now.getHours()).padStart(2,"0")
+ +":"+String(now.getMinutes()).padStart(2,"0");
+
+ let prayers=[
+  ["Fajr",cleanTime(prayerData.Fajr)],
+  ["Dhuhr",cleanTime(prayerData.Dhuhr)],
+  ["Asr",cleanTime(prayerData.Asr)],
+  ["Maghrib",cleanTime(prayerData.Maghrib)],
+  ["Isha",cleanTime(prayerData.Isha)]
+ ];
+
+ prayers.forEach(p=>{
+
+  if(current===p[1]){
+
+   let key=
+   "alarm-"+new Date().toDateString()+"-"+p[0];
+
+   if(!localStorage.getItem(key)){
+
+    localStorage.setItem(key,"1");
+
+    if(Notification.permission==="granted"){
+
+     new Notification(
+      "🕌 "+p[0]+" Prayer Time"
+     );
+
+    }else{
+
+     alert("🕌 "+p[0]+" Prayer Time");
+
+    }
+   }
+  }
+ });
+}
+
+setInterval(checkPrayerAlarm,30000);
+
+
+/* =========================
+PDF LIBRARY
+========================= */
+
+let PDFs=JSON.parse(
+ localStorage.getItem("pdfs")||"[]"
+);
+
+function savePDF(){
+
+ let file=document.getElementById("pdfFile").files[0];
+
+ if(!file){
+  alert("Select a PDF.");
+  return;
+ }
+
+ let reader=new FileReader();
+
+ reader.onload=()=>{
+
+  PDFs.push({
+   name:file.name,
+   data:reader.result
+  });
+
+  try{
+
+   localStorage.setItem("pdfs",JSON.stringify(PDFs));
+   renderPDFs();
+
+  }catch(e){
+
+   alert("PDF is too large for browser storage.");
+
+  }
+ };
+
+ reader.readAsDataURL(file);
+}
+
+function renderPDFs(){
+
+ document.getElementById("pdfList").innerHTML=
+ PDFs.map((p,i)=>`
+
+ <div class="pdf">
+
+ 📕 <b>${p.name}</b>
+
+ <br><br>
+
+ <button class="btn" onclick="openPDF(${i})">
+ 📖 Open
+ </button>
+
+ </div>
+
+ `).join("");
+}
+
+function openPDF(i){
+
+ let w=window.open();
+
+ w.document.write(
+ `<iframe src="${PDFs[i].data}" style="width:100%;height:100vh;border:0"></iframe>`
+ );
+}
+
+
+/* =========================
+START
+========================= */
+
+document.getElementById("lang").value=lang;
+
+applyLanguage();
+
+renderMawlid();
+
+renderPDFs();
+
+updateCounter();
+
+loadQuran();
+
+if(localStorage.getItem("lat")){
+ latitude=Number(localStorage.getItem("lat"));
+ longitude=Number(localStorage.getItem("lon"));
+ loadPrayerTimes();
+}
+
+if(localStorage.getItem("alarmEnabled")==="true"){
+ document.getElementById("alarmEnabled").checked=true;
+}
+
+</script>
+
+</body>
+</html>

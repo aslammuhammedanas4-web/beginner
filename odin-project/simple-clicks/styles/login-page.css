@@ -1,0 +1,44 @@
+body {
+    background-color: #f2f2f2;
+
+}
+* {
+    font-family: Arial, sans-serif;
+}
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.form-input {
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.form-input:focus,
+.form-btn:valid {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.form-btn {
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.form-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-input,
+.form-btn {
+    display: block;
+    margin: 10px auto;
+}
