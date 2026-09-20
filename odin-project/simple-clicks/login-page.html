@@ -9,11 +9,30 @@
 </head>
 
 <body>
-    <p class="form-title ">sign in to your account</p>
-    <input type="text" placeholder="Full name" class="form-input">
-    <input type="email" placeholder="Email" class="form-input">
-    <input type="password" placeholder="Password" class="form-input">
-    <button class="form-btn">Sign in</button>
-    <p class="form-bottom">New here ? <a href="#">Create an account</a></p>
+    <div class="container">
+        <div class="heading">Sign In to your account</div>
+        <form Class="form">
+            <div class="form-input">
+                <input type="text"  id="name" required>
+                <label for="name">Full Name</label>
+
+            </div>
+            <div class="form-input">
+                <input type="email"  id="email" required>
+                <label for="email">Email</label> 
+
+            </div>
+            <div class="form-input">
+              <input type="password" id="password" required>
+              <label for="password">Password</label>
+            </div>
+            <div class="btn-container">
+                 <button type="submit" class="btn">Submit</button>
+                 <span class="signup-link">Don't have an account? <a href="signup-page.html">Sign Up</a></span>
+            </div>
+           
+        </form>
+    </div>
 </body>
+
 </html>

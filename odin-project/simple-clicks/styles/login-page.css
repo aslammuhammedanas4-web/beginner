@@ -1,44 +1,93 @@
-body {
-    background-color: #f2f2f2;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family:sans-serif;
+}
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#e8e8e8;
+}
+.container{
+    border:solid 1px #8d8d8d;
+    padding:20px;
+    border-radius:20px;
+    background-color:#fff;
+}
+.container .heading{
+    font-size:1.3rem;
+    margin-bottom:20px;
+    font-weight:bolder;
+}
+.form{
+    max-width:300px;
+    flex-direction:column;
+    gap:20px;
+}
+.form .btn-container {
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+.form .btn{
+    padding:10px 20px;
+    font-size:1rem;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    border-radius:10px;
+    border:solid 1px #1034aa;
+    border-bottom:solid 1px #90c2ff;
+    background: linear-gradient(135deg, #0034de, #006eff);
+    color:#fff;
+    font-weight:bolder;
+    cursor:pointer;
+    transition: all 0.2s ease;
+    box-shadow:0px 2px 3px #003848,
+               inset 0px 4px 5px #0070f0,
+               inset 0px -4px 5px #002cbb;
+}
+.form .btn:active{
+    box-shadow:inset 0px 4px 5px #0070f0,
+              inset 0px -4px 5px #002cbb;
+     transform:scale(0.995);          
+}
+
+.form-input{
+   position:relative;
+   margin-bottom:10px;
 
 }
-* {
-    font-family: Arial, sans-serif;
+.form-input label {
+    position:absolute;
+    color:#8d8d8d;
+    pointer-events:none;
+    background-color:transparent;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    transition:all 0.3s ease;
 }
-.form-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
+.form-input input{
+    padding:10px 15px;
+    font-size:1rem;
+    border-radius: 8px;
+    border:solid 1px #8d8d8d;
+    letter-spacing:1px;
+    width:100%;
 }
-
-.form-input {
-    padding: 10px;
-    width: 300px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.form-input input:focus ~ label,
+.form-input input:valid ~ label{
+    top:0;
+    font-size:0.8em;
+    padding:0 5px;
+    background-color:#fff;
+    color:#0034de;
 }
-.form-input:focus,
-.form-btn:valid {
-    outline: none;
-    border-color: #4CAF50;
-}
-
-.form-btn {
-    padding: 10px;
-    width: 300px;
-    border-radius: 5px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-}
-
-.form-bottom {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.form-input,
-.form-btn {
-    display: block;
-    margin: 10px auto;
+.form-input input:focus{
+    outline:none;
+    border:solid 1px #0034de;
 }
